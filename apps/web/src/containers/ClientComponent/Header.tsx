@@ -8,24 +8,27 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { useProducts } from './contexts/ProductsContext'
+import { useProducts } from '../../contexts/ProductsContext'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export interface NavigationProps {
+export interface HeaderProps {
   categories: Array<string>
 }
 
-export default function Navigation(props: NavigationProps) {
+export default function Header(props: HeaderProps) {
   const { categories } = props
 
   const [open, setOpen] = useState(false)
   const [isSearchOpen, setSearchOpen] = useState(false)
   const searchContainerRef = useRef<HTMLDivElement>(null)
-  const { dispatch, state } = useProducts()
+  const { dispatch } = useProducts()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const handleClickOutside = (event) => {
     if (
@@ -63,6 +66,11 @@ export default function Navigation(props: NavigationProps) {
 
     const json = await algoliaResponse.json()
     dispatch({ type: 'populate', payload: json })
+
+    // TODO: Test this
+    // if (pathname !== '/') {
+    //   router.push('/')
+    // }
   }
 
   useEffect(() => {
@@ -177,19 +185,19 @@ export default function Navigation(props: NavigationProps) {
                 </a>
               </div>
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                <a
-                  href="#"
+                <Link
+                  href=""
                   className="text-sm font-medium text-gray-700 hover:text-gray-800"
                 >
                   Sign in
-                </a>
+                </Link>
                 <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                <a
-                  href="#"
+                <Link
+                  href=""
                   className="text-sm font-medium text-gray-700 hover:text-gray-800"
                 >
                   Create account
-                </a>
+                </Link>
               </div>
             </div>
           </div>

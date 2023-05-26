@@ -1,5 +1,6 @@
 import { LocalizedString, ProductsResponse } from '@commercetools-dpc/types'
 import { Card } from '@commercetools-dpc/web-ui'
+import Link from 'next/link'
 
 export interface Product {
   id: string
@@ -9,11 +10,14 @@ export interface Product {
   description: LocalizedString
 }
 
-const EcommercetoolsProductList = async () => {
-  const bearerToken = String(process.env.TOKEN)
-  // const bearerToken = 'nQVnDM4MsTLKN5GT9CYxrGwWwBpSb6oP'
-  const url =
-    'https://api.europe-west1.gcp.commercetools.com/myprojectkey/products'
+const CommercetoolsProductList = async () => {
+  const baseUrl = String(process.env.COMMERCETOOLS_BASE_URL)
+  const projectKey = String(process.env.COMMERCETOOLS_PROJECT_KEY)
+  const bearerToken = String(process.env.COMMERCETOOLS_TOKEN)
+
+  // const url =
+  //   'https://api.europe-west1.gcp.commercetools.com/myprojectkey/products'
+  const url = `${baseUrl}/${projectKey}/products`
 
   const result = await fetch(url, {
     method: 'GET',
@@ -22,6 +26,14 @@ const EcommercetoolsProductList = async () => {
       'Content-Type': 'application/json',
     },
   })
+
+  if (!result.ok)
+    throw Error(
+      "Couldn't fetch commercetools products " +
+        result.status +
+        ' ' +
+        result.statusText,
+    )
 
   const json: ProductsResponse = await result.json()
 
@@ -59,11 +71,25 @@ const EcommercetoolsProductList = async () => {
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-10 justify-items-center">
         {products.map((product) => (
-          <Card key={product.id} {...product} />
+          <Card
+            key={product.id}
+            {...product}
+            renderProps={() => {
+              return (
+                <Link href={`/commercetools/${product.id}`}>
+                  <img
+                    className="p-8 rounded-t-lg cursor-pointer w-full"
+                    src={product.imageUrl}
+                    alt={product.name}
+                  />
+                </Link>
+              )
+            }}
+          />
         ))}
       </div>
     </div>
   )
 }
 
-export default EcommercetoolsProductList as unknown as () => JSX.Element
+export default CommercetoolsProductList as unknown as () => JSX.Element

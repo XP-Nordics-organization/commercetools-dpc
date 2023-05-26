@@ -1,30 +1,19 @@
-'use client'
+import { Button } from 'common/Button'
+import { SocialMediaIcon } from 'common/Icons'
+import { ReviewStars } from 'common/ReviewStars'
 
-import { Button, ReviewStars, SocialMediaIcon } from '@commercetools-dpc/web-ui'
-import { useState } from 'react'
-
-export interface Product {
+export interface ProductProps {
   imageUrl: string
-  name: string
-  description: string
-  price: number | string
   designer: string
+  name: string
   rating: number
-  color?: {
-    key: string
-    label: {
-      en: string
-    }
-  }
+  price: string
 }
 
-const Product = (props: Product) => {
-  const { imageUrl, name, description, price, color, designer, rating } = props
-  // const [selectedColor, setSelectedColor] = useState(color.key)
+export const Product = (props: ProductProps) => {
+  const { imageUrl, designer, name, rating, price } = props
 
   return (
-    // <section className="text-gray-700 body-font overflow-hidden bg-white">
-    //   <div className="container px-5 py-24 mx-auto">
     <>
       <div className="lg:w-4/5 mx-auto flex flex-wrap">
         <img
@@ -47,7 +36,14 @@ const Product = (props: Product) => {
               <SocialMediaIcon type="whatsapp" />
             </span>
           </div>
-          <p className="leading-relaxed">{description}</p>
+          <p className="leading-relaxed">
+            {`Fam locavore kickstarter distillery. Mixtape chillwave tumeric
+              sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo
+              juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
+              seitan poutine tumeric. Gastropub blue bottle austin listicle
+              pour-over, neutra jean shorts keytar banjo tattooed umami
+              cardigan.`}
+          </p>
           <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
             <div className="flex">
               <span className="mr-3">Color</span>
@@ -106,9 +102,5 @@ const Product = (props: Product) => {
         </div>
       </div>
     </>
-    //   </div>
-    // </section>
   )
 }
-
-export default Product as unknown as (props: Product) => JSX.Element

@@ -1,6 +1,6 @@
 import { PageLayout } from '@commercetools-dpc/web-ui'
-import Navigation from 'containers/ClientComponent/Navigation'
-import { ProductsProvider } from 'containers/ClientComponent/contexts/ProductsContext'
+import Header from 'containers/ClientComponent/Header'
+import { ProductsProvider } from 'contexts/ProductsContext'
 import 'tailwindcss/tailwind.css'
 
 export const metadata = {
@@ -38,7 +38,7 @@ export default async function RootLayout({
       <body>
         <ProductsProvider>
           <header>
-            <Navigation categories={categories} />
+            <Header categories={categories} />
           </header>
           <PageLayout>{children}</PageLayout>
         </ProductsProvider>
