@@ -44,7 +44,7 @@ Generated app can be found at: /apps/web/.next
 
 `yarn build:storybook`
 
-### Special notes
+## Special notes
 
 - algolia products URL: http://localhost:3000/algolia
 - commercetools products URL: http://localhost:3000/commercetools
